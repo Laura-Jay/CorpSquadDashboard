@@ -6,7 +6,7 @@ import { useEffect, useReducer, useState} from "react";
 import useAxiosFetchAll from "./APIs/useFetchAll";
 import { projectURL, employeeURL, clientURL } from "./APIs/URLs";
 import stitchData from "./utils/stitchData";
-import { IFullProjectData } from "./Interfaces";
+import { IClient, IEmployee, IFullProjectData, IProject } from "./Interfaces";
 import "./styles.css"
 
 const ACTIONS = {
@@ -16,13 +16,36 @@ const ACTIONS = {
   SETFULLDATA: "SETFULLDATA"
 };
 
+interface IState {
+  loading: boolean,
+  error: boolean,
+  projectData: IProject[] | null,
+  employeeData: IEmployee[] | null,
+  clientData: IClient[] | null
+}
+
+interface ILoadAction {
+  type: "LOADING"
+}
+
+interface IErrorAction {
+  type: "ERROR"
+}
+
+interface IUpdateAction {
+  type: "UPDATEDATA"
+  payload: [IProject[], IEmployee[], IClient[]]
+}
+
+type ActionType = ILoadAction | IErrorAction | IUpdateAction
+
 function App(): JSX.Element {
 
   const [fullData, setFullData] = useState<IFullProjectData[]>([])
 
 
   const [state, dispatch] = useReducer(
-    (state: any, action: { type: string; payload?: any }) => {
+    (state: IState, action: ActionType) => {
       switch (action.type) {
         case "LOADING":
           return { ...state, loading: true, error: false };
@@ -33,7 +56,7 @@ function App(): JSX.Element {
             error: false,
             projectData: action.payload[0],
             employeeData: action.payload[1],
-            clientData: action.payload[2],
+            clientData: action.payload[2]
           };
         case "ERROR":
           return { ...state, loading: false, error: true };
@@ -57,18 +80,18 @@ function App(): JSX.Element {
   useEffect(() => {
 
     dispatch({
-      type: ACTIONS.LOADING,
+      type: "LOADING",
     });
 
 
     if (data) {
       dispatch({
-        type: ACTIONS.UPDATEDATA,
+        type: "UPDATEDATA",
         payload: data,
       });
     } else {
       dispatch({
-        type: ACTIONS.ERROR,
+        type: "ERROR",
       });
     }
   }, [data]);
@@ -77,9 +100,9 @@ function App(): JSX.Element {
 useEffect(() => {
   
   if (state.projectData && state.employeeData && state.clientData){
-    console.log(state.projectData)
-    console.log(state.employeeData)
-    console.log(state.clientData)
+
+
+    console.log(typeof state.projectData)
   const fullProjectsData = stitchData(
     state.projectData,
     state.employeeData,

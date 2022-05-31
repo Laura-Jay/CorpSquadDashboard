@@ -7,6 +7,8 @@ export default function stitchData(
 ): IFullProjectData[] {
   const fullProjectData = [];
 
+  console.log(projectData)
+  console.log(employeeData)
   for (const project of projectData) {
     const teamMembers = [];
     let teamMember;

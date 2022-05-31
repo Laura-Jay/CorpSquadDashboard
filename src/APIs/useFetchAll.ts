@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
-import { APIResponse } from "../Interfaces";
+import { APIResponse, IClient, IEmployee, IProject } from "../Interfaces";
 
 const ACTIONS = {
   INIT: "INIT",
@@ -8,13 +8,34 @@ const ACTIONS = {
   ERROR: "ERROR",
 };
 
+interface IState{
+  isLoading: boolean,
+  isError: boolean,
+  data: [IProject[], IEmployee[], IClient[]] | null
+}
+
+interface ILoadAction {
+  type: "INIT"
+}
+
+interface IErrorAction {
+  type: "ERROR"
+}
+
+interface IUpdateAction {
+  type: "SUCCESS"
+  payload: [IProject[], IEmployee[], IClient[]]
+}
+
+type ActionType = ILoadAction | IErrorAction | IUpdateAction
+
 export default function useAxiosFetchAll(
   url: string,
   url2: string,
   url3: string
 ): APIResponse {
   const [state, dispatch] = useReducer(
-    (state: any, action: { type: any; payload?: any }) => {
+    (state: IState, action: ActionType) => {
       switch (action.type) {
         case "INIT":
           return { ...state, isLoading: true, isError: false };
@@ -42,28 +63,31 @@ export default function useAxiosFetchAll(
     }
 
     async function fetch() {
-      dispatch({ type: ACTIONS.INIT });
+      dispatch({ type: "INIT" });
 
       try {
         const projects = axios.get(url);
-        const employees = axios.get(url2);
+        const employees= axios.get(url2);
         const clients = axios.get(url3);
 
-        const result = await Promise.all([projects, employees, clients]);
-
+      
+        const results = await Promise.all([projects, employees, clients])
+          
         dispatch({
-          type: ACTIONS.SUCCESS,
-          payload: [result[0].data, result[1].data, result[2].data],
+          type: "SUCCESS",
+          payload: [results[0].data, results[1].data, results[2].data]
         });
 
-        console.log(result)
+      
+
+
       } catch (error) {
-        dispatch({ type: ACTIONS.ERROR });
+        dispatch({ type: "ERROR" });
       }
     }
 
     fetch();
   }, [url, url2, url3]);
-
+  console.log(state)
   return state;
 }
