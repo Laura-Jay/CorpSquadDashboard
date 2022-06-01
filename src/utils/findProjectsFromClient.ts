@@ -2,7 +2,7 @@ import { IFullProjectData } from "../Interfaces";
 
 export default function findProjectsFromClient(
   projects: IFullProjectData[],
-  id: string,
+  id: string
 ): IFullProjectData[] {
   const relevantProjects: IFullProjectData[] = [];
 

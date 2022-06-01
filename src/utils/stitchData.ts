@@ -7,8 +7,8 @@ export default function stitchData(
 ): IFullProjectData[] {
   const fullProjectData = [];
 
-  console.log(projectData)
-  console.log(employeeData)
+  console.log(projectData);
+  console.log(employeeData);
   for (const project of projectData) {
     const teamMembers = [];
     let teamMember;
@@ -20,18 +20,17 @@ export default function stitchData(
       teamMembers.push(teamMember[0]);
     }
 
-    console.log(clientData)
+    console.log(clientData);
 
     let clientDetails = {
       id: "",
-      name: ""
-    }
+      name: "",
+    };
 
-    for (const client of clientData){
-      if (client.id === project.clientId){
-        clientDetails = client
+    for (const client of clientData) {
+      if (client.id === project.clientId) {
+        clientDetails = client;
       }
-
     }
 
     fullProjectData.push({

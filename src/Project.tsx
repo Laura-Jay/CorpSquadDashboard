@@ -1,8 +1,7 @@
-import { IEmployee, IClient} from "./Interfaces";
+import { IEmployee, IClient } from "./Interfaces";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TeamDetails from "./TeamDetails";
-
 
 interface IProjectProps {
   project: {
@@ -10,24 +9,24 @@ interface IProjectProps {
     id: string;
     size: string;
     startDate: string;
-  }
-  team: IEmployee[],
-  client: IClient
+  };
+  team: IEmployee[];
+  client: IClient;
 }
 
 export default function Project(props: IProjectProps): JSX.Element {
-
   const [toggleDetails, setToggleDetails] = useState(false);
 
   const teamMembers = props.team.map((employee: IEmployee) => {
     return (
-    <TeamDetails
-      key={employee.id}
-      id={employee.id}
-      avatar={employee.avatar}
-      role={employee.role}
-      name={employee.name}
-    />);
+      <TeamDetails
+        key={employee.id}
+        id={employee.id}
+        avatar={employee.avatar}
+        role={employee.role}
+        name={employee.name}
+      />
+    );
   });
 
   function handleShowDetails() {
@@ -44,7 +43,7 @@ export default function Project(props: IProjectProps): JSX.Element {
       <div className="project-body">
         <p>
           <strong>Client ID:</strong> {props.client.id}
-        </p>   
+        </p>
         <p>
           <strong>Client Name:</strong>
         </p>

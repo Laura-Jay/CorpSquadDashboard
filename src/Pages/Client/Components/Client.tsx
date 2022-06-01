@@ -1,4 +1,4 @@
-import { IClient } from "../../../Interfaces"
+import { IClient } from "../../../Interfaces";
 
 export default function Client(props: IClient): JSX.Element {
   return (

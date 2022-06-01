@@ -7,7 +7,7 @@ const projectData1 = [
     employeeIds: [
       "f7385abd40a5d567fbf72e5c",
       "c0ebabbe2bace5ebca57caba",
-      "12beb32b50f1bffe67bcd19e"
+      "12beb32b50f1bffe67bcd19e",
     ],
     contract: {
       startDate: "Thu Jun 20 2019",
@@ -19,9 +19,9 @@ const projectData1 = [
     id: "3c8a1083d6befcfbbb1cca37",
     clientId: "e729699c1e86e4a760a51f5b",
     employeeIds: [
-        "f7385abd40a5d567fbf72e5c",
-        "c0ebabbe2bace5ebca57caba",
-        "12beb32b50f1bffe67bcd19e"
+      "f7385abd40a5d567fbf72e5c",
+      "c0ebabbe2bace5ebca57caba",
+      "12beb32b50f1bffe67bcd19e",
     ],
     contract: {
       startDate: "Sat Jan 02 2021",
@@ -78,9 +78,10 @@ const clientData1 = [
   },
 ];
 
-
 test("stitch project data", () => {
-  expect(stitchData(projectData1, employeeData1, clientData1)).toBe(test1Result);
+  expect(stitchData(projectData1, employeeData1, clientData1)).toBe(
+    test1Result
+  );
 });
 
 const test1Result = [
@@ -95,7 +96,8 @@ const test1Result = [
       size: "47362.95",
       startDate: "Thu Jun 20 2019",
     },
-    team: [ {
+    team: [
+      {
         id: "f7385abd40a5d567fbf72e5c",
         name: "Leo Kuhic",
         role: "National Communications Supervisor",
@@ -115,8 +117,7 @@ const test1Result = [
         role: "Lead Research Supervisor",
         avatar:
           "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/198.jpg",
-      }
-     
+      },
     ],
   },
   {
@@ -131,27 +132,27 @@ const test1Result = [
       startDate: "Sat Jan 02 2021",
     },
     team: [
-        {
-            id: "f7385abd40a5d567fbf72e5c",
-            name: "Leo Kuhic",
-            role: "National Communications Supervisor",
-            avatar:
-              "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/937.jpg",
-          },
-          {
-            id: "c0ebabbe2bace5ebca57caba",
-            name: "Rosalie Brakus",
-            role: "Direct Assurance Engineer",
-            avatar:
-              "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/595.jpg",
-          },
-          {
-            id: "12beb32b50f1bffe67bcd19e",
-            name: "Patsy O'Hara DVM",
-            role: "Lead Research Supervisor",
-            avatar:
-              "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/198.jpg",
-          },
+      {
+        id: "f7385abd40a5d567fbf72e5c",
+        name: "Leo Kuhic",
+        role: "National Communications Supervisor",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/937.jpg",
+      },
+      {
+        id: "c0ebabbe2bace5ebca57caba",
+        name: "Rosalie Brakus",
+        role: "Direct Assurance Engineer",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/595.jpg",
+      },
+      {
+        id: "12beb32b50f1bffe67bcd19e",
+        name: "Patsy O'Hara DVM",
+        role: "Lead Research Supervisor",
+        avatar:
+          "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/198.jpg",
+      },
       {
         avatar:
           "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/937.jpg",

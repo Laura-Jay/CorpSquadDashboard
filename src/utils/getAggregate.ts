@@ -1,4 +1,4 @@
-import { IFullProjectData} from "../Interfaces";
+import { IFullProjectData } from "../Interfaces";
 
 export default function getAggregate(projects: IFullProjectData[]): number {
   let aggregate = 0;

@@ -2,32 +2,32 @@ import axios from "axios";
 import { useEffect, useReducer } from "react";
 import { APIResponse, IClient, IEmployee, IProject } from "../Interfaces";
 
-const ACTIONS = {
-  INIT: "INIT",
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-};
+// const ACTIONS = {
+//   INIT: "INIT",
+//   SUCCESS: "SUCCESS",
+//   ERROR: "ERROR",
+// };
 
-interface IState{
-  isLoading: boolean,
-  isError: boolean,
-  data: [IProject[], IEmployee[], IClient[]] | null
+interface IState {
+  isLoading: boolean;
+  isError: boolean;
+  data: [IProject[], IEmployee[], IClient[]] | null;
 }
 
 interface ILoadAction {
-  type: "INIT"
+  type: "INIT";
 }
 
 interface IErrorAction {
-  type: "ERROR"
+  type: "ERROR";
 }
 
 interface IUpdateAction {
-  type: "SUCCESS"
-  payload: [IProject[], IEmployee[], IClient[]]
+  type: "SUCCESS";
+  payload: [IProject[], IEmployee[], IClient[]];
 }
 
-type ActionType = ILoadAction | IErrorAction | IUpdateAction
+type ActionType = ILoadAction | IErrorAction | IUpdateAction;
 
 export default function useAxiosFetchAll(
   url: string,
@@ -67,20 +67,15 @@ export default function useAxiosFetchAll(
 
       try {
         const projects = axios.get(url);
-        const employees= axios.get(url2);
+        const employees = axios.get(url2);
         const clients = axios.get(url3);
 
-      
-        const results = await Promise.all([projects, employees, clients])
-          
+        const results = await Promise.all([projects, employees, clients]);
+
         dispatch({
           type: "SUCCESS",
-          payload: [results[0].data, results[1].data, results[2].data]
+          payload: [results[0].data, results[1].data, results[2].data],
         });
-
-      
-
-
       } catch (error) {
         dispatch({ type: "ERROR" });
       }
@@ -88,6 +83,6 @@ export default function useAxiosFetchAll(
 
     fetch();
   }, [url, url2, url3]);
-  console.log(state)
+  console.log(state);
   return state;
 }

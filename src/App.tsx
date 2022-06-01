@@ -2,47 +2,45 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/Home";
 import ClientPage from "./Pages/Client";
 import EmployeePage from "./Pages/Employees";
-import { useEffect, useReducer, useState} from "react";
+import { useEffect, useReducer, useState } from "react";
 import useAxiosFetchAll from "./APIs/useFetchAll";
 import { projectURL, employeeURL, clientURL } from "./APIs/URLs";
 import stitchData from "./utils/stitchData";
 import { IClient, IEmployee, IFullProjectData, IProject } from "./Interfaces";
-import "./styles.css"
+import "./styles.css";
 
-const ACTIONS = {
-  LOADING: "LOADING",
-  UPDATEDATA: "UPDATEDATA",
-  ERROR: "ERROR",
-  SETFULLDATA: "SETFULLDATA"
-};
+// const ACTIONS = {
+//   LOADING: "LOADING",
+//   UPDATEDATA: "UPDATEDATA",
+//   ERROR: "ERROR",
+//   SETFULLDATA: "SETFULLDATA",
+// };
 
 interface IState {
-  loading: boolean,
-  error: boolean,
-  projectData: IProject[] | null,
-  employeeData: IEmployee[] | null,
-  clientData: IClient[] | null
+  loading: boolean;
+  error: boolean;
+  projectData: IProject[] | null;
+  employeeData: IEmployee[] | null;
+  clientData: IClient[] | null;
 }
 
 interface ILoadAction {
-  type: "LOADING"
+  type: "LOADING";
 }
 
 interface IErrorAction {
-  type: "ERROR"
+  type: "ERROR";
 }
 
 interface IUpdateAction {
-  type: "UPDATEDATA"
-  payload: [IProject[], IEmployee[], IClient[]]
+  type: "UPDATEDATA";
+  payload: [IProject[], IEmployee[], IClient[]];
 }
 
-type ActionType = ILoadAction | IErrorAction | IUpdateAction
+type ActionType = ILoadAction | IErrorAction | IUpdateAction;
 
 function App(): JSX.Element {
-
-  const [fullData, setFullData] = useState<IFullProjectData[]>([])
-
+  const [fullData, setFullData] = useState<IFullProjectData[]>([]);
 
   const [state, dispatch] = useReducer(
     (state: IState, action: ActionType) => {
@@ -56,7 +54,7 @@ function App(): JSX.Element {
             error: false,
             projectData: action.payload[0],
             employeeData: action.payload[1],
-            clientData: action.payload[2]
+            clientData: action.payload[2],
           };
         case "ERROR":
           return { ...state, loading: false, error: true };
@@ -71,18 +69,12 @@ function App(): JSX.Element {
     }
   );
 
-  const { data } = useAxiosFetchAll(
-    projectURL,
-    employeeURL,
-    clientURL
-  );
+  const { data } = useAxiosFetchAll(projectURL, employeeURL, clientURL);
 
   useEffect(() => {
-
     dispatch({
       type: "LOADING",
     });
-
 
     if (data) {
       dispatch({
@@ -96,26 +88,18 @@ function App(): JSX.Element {
     }
   }, [data]);
 
- 
-useEffect(() => {
-  
-  if (state.projectData && state.employeeData && state.clientData){
+  useEffect(() => {
+    if (state.projectData && state.employeeData && state.clientData) {
+      console.log(typeof state.projectData);
+      const fullProjectsData = stitchData(
+        state.projectData,
+        state.employeeData,
+        state.clientData
+      );
 
-
-    console.log(typeof state.projectData)
-  const fullProjectsData = stitchData(
-    state.projectData,
-    state.employeeData,
-    state.clientData
-  );
-
-
-  
-  setFullData(fullProjectsData)
-  }
-
-}, [state.projectData, state.employeeData, state.clientData])
- 
+      setFullData(fullProjectsData);
+    }
+  }, [state.projectData, state.employeeData, state.clientData]);
 
   return (
     <>
@@ -125,10 +109,7 @@ useEffect(() => {
 
       <Router>
         <Routes>
-          <Route
-            path="/"
-            element={<HomePage projectData={fullData} />}
-          />
+          <Route path="/" element={<HomePage projectData={fullData} />} />
           <Route
             path="/employees/:employeeId"
             element={<EmployeePage projectData={fullData} />}
