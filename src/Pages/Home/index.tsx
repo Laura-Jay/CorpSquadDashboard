@@ -1,13 +1,12 @@
 import React from "react";
-import { IFullProjectData} from "../../Interfaces";
+import { IFullProjectData } from "../../Interfaces";
 import getAggregate from "../../utils/getAggregate";
 import { useState } from "react";
-import Project from "../../Project"
-
+import Project from "../../Project";
 
 interface Iprops {
-    projectData: IFullProjectData[]
-  }
+  projectData: IFullProjectData[];
+}
 
 export default function HomePage(props: Iprops): JSX.Element {
   const [filter, setFilter] = useState("");
@@ -16,17 +15,18 @@ export default function HomePage(props: Iprops): JSX.Element {
 
   const aggregateRevenue = getAggregate(props.projectData);
 
-  console.log(props.projectData)
+  console.log(props.projectData);
 
   const projectTiles = props.projectData.map((project) => {
     return (
-    <Project
-    key={project.project.id}
-    project={project.project}
-    team={project.team}
-    client={project.client}
-    />)
-  })
+      <Project
+        key={project.project.id}
+        project={project.project}
+        team={project.team}
+        client={project.client}
+      />
+    );
+  });
 
   function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
     setFilter(e.target.value);

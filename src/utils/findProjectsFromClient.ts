@@ -1,16 +1,15 @@
 import { IFullProjectData } from "../Interfaces";
 
-export default function findProjectsFromEmployee(
+export default function findProjectsFromClient(
   projects: IFullProjectData[],
   id: string
 ): IFullProjectData[] {
   const relevantProjects: IFullProjectData[] = [];
 
   for (const project of projects) {
-    for (const employee of project.team)
-      if (employee.id === id) {
-        relevantProjects.push(project);
-      }
+    if (project.client.id === id) {
+      relevantProjects.push(project);
+    }
   }
 
   return relevantProjects;

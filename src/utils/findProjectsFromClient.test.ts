@@ -1,4 +1,4 @@
-import findProjectsFromEmployee from "./findProjectsFromEmployee";
+import findProjectsFromClient from "./findProjectsFromClient";
 
 const testProjects1 = [
   {
@@ -35,8 +35,8 @@ const testProjects1 = [
   },
 ];
 
-test("returns a given employees information from their id", () => {
+test("returns project information containing client id", () => {
   expect(
-    findProjectsFromEmployee(testProjects1, "b8ebcc51e0ff7b8ae43cb0fe")
+    findProjectsFromClient(testProjects1, "f0b83d3a0b77da97ec7eefc4")
   ).toStrictEqual(testProjects1);
 });
