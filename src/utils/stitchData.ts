@@ -7,8 +7,6 @@ export default function stitchData(
 ): IFullProjectData[] {
   const fullProjectData = [];
 
-  console.log(projectData);
-  console.log(employeeData);
   for (const project of projectData) {
     const teamMembers = [];
     let teamMember;
@@ -20,7 +18,6 @@ export default function stitchData(
       teamMembers.push(teamMember[0]);
     }
 
-    console.log(clientData);
 
     let clientDetails = {
       id: "",
