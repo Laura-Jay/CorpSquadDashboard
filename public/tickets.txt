@@ -1,5 +1,4 @@
-Core Functionality:
--local storage https://blog.logrocket.com/using-localstorage-react-hooks/
+
 
 Additional Functionality:
 - responsive text sizing 
