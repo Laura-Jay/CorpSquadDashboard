@@ -33,11 +33,9 @@ export default function ClientPage(props: Iprops): JSX.Element {
   return (
     <>
       <nav>
-        <button>
-          <Link to="/" className="link-button">
-            Dashboard Home
-          </Link>
-        </button>
+        <Link to="/" className="link-button">
+          <button>Dashboard Home</button>
+        </Link>
       </nav>
       <section className="responsive-wrapper">
         <h1>Client Bio</h1>

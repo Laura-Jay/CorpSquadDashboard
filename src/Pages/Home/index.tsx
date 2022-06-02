@@ -14,18 +14,64 @@ interface Iprops {
 }
 
 export default function HomePage(props: Iprops): JSX.Element {
-  const [filter, setFilter] = useState("");
-  const [filterVal, setFilterVal] = useState("");
-  const [filterCost, setFilterCost] = useState("");
-  const [sort, setSort] = useState("");
-  const [toggleSubmit, setToggleSubmit] = useState(false);
+  const [filter, setFilter] = useState<string>("");
+  const [filterVal, setFilterVal] = useState<string>("");
+  const [filterCost, setFilterCost] = useState<string>("");
+  const [dateRange, setDateRange] = useState<string>("");
+  const [sort, setSort] = useState<string>("");
+  const [toggleSubmit, setToggleSubmit] = useState<boolean>(false);
   const [filteredProjects, setfilteredProjects] = useState<IFullProjectData[]>(
     []
   );
-  const [dateRange, setDateRange] = useState("");
 
   useEffect(() => {
+    const localSort = localStorage.getItem("sort");
+    const localFilterVal = localStorage.getItem("filterVal");
+    const localFilter = localStorage.getItem("filter");
+    const localDateRange = localStorage.getItem("dateRange");
+    const localFilterCost = localStorage.getItem("filterCost");
+
+    if (localSort) setSort(localSort);
+    if (localFilterVal) setFilterVal(localFilterVal);
+    if (localFilter) setFilter(localFilter);
+    if (localFilterCost) setFilterCost(localFilterCost);
+    if (localDateRange) setDateRange(localDateRange);
+
+    if (sort || filter) {
+      if (filter === "startDate" || filter === "endDate") {
+        const filteredresults = filterProjects(
+          filter,
+          dateRange,
+          props.projectData
+        );
+
+        const sortedResults = sortProjects(sort, filteredresults);
+        setfilteredProjects(sortedResults);
+      }
+
+      if (filter === "size") {
+        const filteredresults = filterProjects(
+          filter,
+          filterCost,
+          props.projectData
+        );
+
+        const sortedResults = sortProjects(sort, filteredresults);
+        setfilteredProjects(sortedResults);
+      }
+
+      if (filter !== "size" && filter !== "startDate" && filter !== "endDate") {
+        const filteredresults = filterProjects(
+          filter,
+          filterVal,
+          props.projectData
+        );
+        const sortedResults = sortProjects(sort, filteredresults);
+        setfilteredProjects(sortedResults);
+      }
+    }
     setfilteredProjects(props.projectData);
+    // eslint-disable-next-line
   }, [props.projectData]);
 
   useEffect(() => {
@@ -36,6 +82,10 @@ export default function HomePage(props: Iprops): JSX.Element {
         props.projectData
       );
 
+      localStorage.setItem("sort", sort);
+      localStorage.setItem("filterVal", filterVal);
+      localStorage.setItem("filter", filter);
+      localStorage.setItem("dateRange", dateRange);
       const sortedResults = sortProjects(sort, filteredresults);
       setfilteredProjects(sortedResults);
     }
@@ -47,6 +97,9 @@ export default function HomePage(props: Iprops): JSX.Element {
         props.projectData
       );
 
+      localStorage.setItem("sort", sort);
+      localStorage.setItem("filterCost", filterCost);
+      localStorage.setItem("filter", filter);
       const sortedResults = sortProjects(sort, filteredresults);
       setfilteredProjects(sortedResults);
     }
@@ -59,9 +112,9 @@ export default function HomePage(props: Iprops): JSX.Element {
       );
 
       const sortedResults = sortProjects(sort, filteredresults);
-      // localStorage.setItem("sort", sort);
-      // localStorage.setItem("filter", filter);
-      // localStorage.setItem("filter", filterCost);
+      localStorage.setItem("sort", sort);
+      localStorage.setItem("filterVal", filterVal);
+      localStorage.setItem("filter", filter);
       setfilteredProjects(sortedResults);
     }
     // eslint-disable-next-line
@@ -140,7 +193,7 @@ export default function HomePage(props: Iprops): JSX.Element {
           </div>
         )}
         {filter === "size" && (
-          <div>
+          <div className="search-bar">
             <select onChange={handleCostFilter} value={filterCost}>
               <option value="">Select Cost Range</option>
               {filterCostOptions.map((item) => (
@@ -153,7 +206,7 @@ export default function HomePage(props: Iprops): JSX.Element {
           </div>
         )}
         {(filter === "startDate" || filter === "endDate") && (
-          <div>
+          <div className="search-bar">
             <input
               type="text"
               placeholder={placeholderVal}
