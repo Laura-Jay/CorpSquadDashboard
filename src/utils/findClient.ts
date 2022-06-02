@@ -10,10 +10,8 @@ export default function findClient(
   };
 
   for (const project of projects) {
-    for (const client of project.team) {
-      if (client.id === clientId) {
-        return client;
-      }
+    if (project.client.id === clientId) {
+      return project.client;
     }
   }
 

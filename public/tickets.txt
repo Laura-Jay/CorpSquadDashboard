@@ -1,24 +1,16 @@
 Core Functionality:
-- Sort and filter projects 
+-local storage https://blog.logrocket.com/using-localstorage-react-hooks/
 
 Additional Functionality:
-- transition animation for sort and filter 
 - responsive text sizing 
-- fixed scroll header to allow easy access to filters from halfway through list
-- Search Employee Name 
-- Employee Home Page 
-- Search Client Name 
-- Client Home Page 
+- scroll back to top button displayed on scroll
 - Graph mapping projects / times / size 
-- make team details show 2 x2 grid 
-- make projects max 2 x2 grid 
-- navigation to Employee and client pages 
-- css for nav bar 
+- css drop down options
 - footer 
-- read me file : challenges, approach ect 
+- read me file : challenges, approach ect
+- responsive layout for search and filter bars  
 
-Checks: 
-- looks good on ipad, 
-- on large screens team members get clipped : TO RESOLVE
+Responsive Checks: 
+- looks good on ipad
+- layout adapts to 4k screen
 - on phone screen text is a little small 
-- sort and filter bars need a max and min width, perhaps stack them for mobile? 
