@@ -40,4 +40,8 @@ test("returns client information from projects array by client id", () => {
     id: "f0b83d3a0b77da97ec7eefc4",
     name: "Mon-Inc",
   });
+  expect(findClient(testProjects1, "")).toStrictEqual({
+    id: "not found",
+    name: "not found",
+  });
 });

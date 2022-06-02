@@ -7,8 +7,7 @@ import filterProjects from "../../utils/filterProjects";
 import sortProjects from "../../utils/sortProjects";
 import { filterOptions } from "../../utils/filterProjects";
 import { sortOptions } from "../../utils/sortProjects";
-import { filterCostOptions } from "../../utils/filterProjects"
-
+import { filterCostOptions } from "../../utils/filterProjects";
 
 interface Iprops {
   projectData: IFullProjectData[];
@@ -20,53 +19,51 @@ export default function HomePage(props: Iprops): JSX.Element {
   const [filterCost, setFilterCost] = useState("");
   const [sort, setSort] = useState("");
   const [toggleSubmit, setToggleSubmit] = useState(false);
-  const [filteredProjects, setfilteredProjects] = useState<IFullProjectData[]>([]);
+  const [filteredProjects, setfilteredProjects] = useState<IFullProjectData[]>(
+    []
+  );
   const [dateRange, setDateRange] = useState("");
-  
-  
-  
+
   useEffect(() => {
     setfilteredProjects(props.projectData);
   }, [props.projectData]);
 
   useEffect(() => {
-
-    if(filter === "startDate" || filter === "endDate"){
-        const filteredresults = filterProjects(
+    if (filter === "startDate" || filter === "endDate") {
+      const filteredresults = filterProjects(
         filter,
         dateRange,
         props.projectData
       );
-  
+
       const sortedResults = sortProjects(sort, filteredresults);
       setfilteredProjects(sortedResults);
     }
 
-    if(filter === "size") {
+    if (filter === "size") {
       const filteredresults = filterProjects(
         filter,
         filterCost,
         props.projectData
       );
-  
+
       const sortedResults = sortProjects(sort, filteredresults);
       setfilteredProjects(sortedResults);
-       } 
-      
-     if(filter !== "size" && filter !== "startDate" && filter !== 'endDate')  {
+    }
 
-    const filteredresults = filterProjects(
-      filter,
-      filterVal,
-      props.projectData
-    );
+    if (filter !== "size" && filter !== "startDate" && filter !== "endDate") {
+      const filteredresults = filterProjects(
+        filter,
+        filterVal,
+        props.projectData
+      );
 
-    const sortedResults = sortProjects(sort, filteredresults);
-    // localStorage.setItem("sort", sort);
-    // localStorage.setItem("filter", filter);
-    // localStorage.setItem("filter", filterCost);
-    setfilteredProjects(sortedResults);
-  }
+      const sortedResults = sortProjects(sort, filteredresults);
+      // localStorage.setItem("sort", sort);
+      // localStorage.setItem("filter", filter);
+      // localStorage.setItem("filter", filterCost);
+      setfilteredProjects(sortedResults);
+    }
     // eslint-disable-next-line
   }, [toggleSubmit, sort]);
 
@@ -78,12 +75,12 @@ export default function HomePage(props: Iprops): JSX.Element {
     setFilter(e.target.value);
   }
 
-  function handleDateFilter(e: React.ChangeEvent<HTMLInputElement>){
-    setDateRange(e.target.value)
+  function handleDateFilter(e: React.ChangeEvent<HTMLInputElement>) {
+    setDateRange(e.target.value);
   }
 
-  function handleCostFilter(e: React.ChangeEvent<HTMLSelectElement>){
-    setFilterCost(e.target.value)
+  function handleCostFilter(e: React.ChangeEvent<HTMLSelectElement>) {
+    setFilterCost(e.target.value);
     setToggleSubmit((prev) => !prev);
   }
 
@@ -142,22 +139,22 @@ export default function HomePage(props: Iprops): JSX.Element {
             <button onClick={handleReset}>Reset</button>
           </div>
         )}
-        { filter === "size" && 
-        <div>
-        <select onChange={handleCostFilter} value={filterCost}>
-           <option value="">Select Cost Range</option>
-           {filterCostOptions.map((item) => (
-              <option key={item.value} value={item.value}>
-                {item.name}
-              </option>
-            ))}
-        </select>
-        <button onClick={handleReset}>Reset</button>
-        </div>
-        }
-        { (filter === "startDate" || filter === "endDate") &&
+        {filter === "size" && (
           <div>
-          <input
+            <select onChange={handleCostFilter} value={filterCost}>
+              <option value="">Select Cost Range</option>
+              {filterCostOptions.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            <button onClick={handleReset}>Reset</button>
+          </div>
+        )}
+        {(filter === "startDate" || filter === "endDate") && (
+          <div>
+            <input
               type="text"
               placeholder={placeholderVal}
               id="startDate"
@@ -166,9 +163,8 @@ export default function HomePage(props: Iprops): JSX.Element {
             />
             <button onClick={handleSubmit}>Apply Filter</button>
             <button onClick={handleReset}>Reset</button>
-        </div>
-        }
-  
+          </div>
+        )}
 
         <div className="options-bar">
           <h3>Filter:</h3>
