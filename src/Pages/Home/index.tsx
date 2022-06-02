@@ -7,6 +7,11 @@ import filterProjects from "../../utils/filterProjects";
 import sortProjects from "../../utils/sortProjects";
 import { filterOptions } from "../../utils/filterProjects";
 import { sortOptions } from "../../utils/sortProjects";
+import { filterCostOptions } from "../../utils/filterProjects"
+// import DatePicker from "react-datepicker"
+// import subMonths from "react-datepicker"
+// import addMonths from "react-datepicker"
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface Iprops {
   projectData: IFullProjectData[];
@@ -15,17 +20,31 @@ interface Iprops {
 export default function HomePage(props: Iprops): JSX.Element {
   const [filter, setFilter] = useState("");
   const [filterVal, setFilterVal] = useState("");
+  const [filterCost, setFilterCost] = useState("");
   const [sort, setSort] = useState("");
   const [toggleSubmit, setToggleSubmit] = useState(false);
-  const [filteredProjects, setfilteredProjects] = useState<IFullProjectData[]>(
-    []
-  );
-
+  const [filteredProjects, setfilteredProjects] = useState<IFullProjectData[]>([]);
+  // const [startDate, setStartDate] = useState(new Date());
+  // const [endDate, setEndDate] = useState(null);
+  
+  
   useEffect(() => {
     setfilteredProjects(props.projectData);
   }, [props.projectData]);
 
   useEffect(() => {
+
+    if(filter === "size") {
+      const filteredresults = filterProjects(
+        filter,
+        filterCost,
+        props.projectData
+      );
+  
+      const sortedResults = sortProjects(sort, filteredresults);
+      setfilteredProjects(sortedResults);
+    } else {
+
     const filteredresults = filterProjects(
       filter,
       filterVal,
@@ -33,8 +52,11 @@ export default function HomePage(props: Iprops): JSX.Element {
     );
 
     const sortedResults = sortProjects(sort, filteredresults);
-
+    // localStorage.setItem("sort", sort);
+    // localStorage.setItem("filter", filter);
+    // localStorage.setItem("filter", filterCost);
     setfilteredProjects(sortedResults);
+  }
     // eslint-disable-next-line
   }, [toggleSubmit, sort]);
 
@@ -44,12 +66,15 @@ export default function HomePage(props: Iprops): JSX.Element {
 
   function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
     setFilter(e.target.value);
-    // localStorage.setItem("filter", e.target.value);
+  }
+
+  function handleCostFilter(e: React.ChangeEvent<HTMLSelectElement>){
+    setFilterCost(e.target.value)
+    setToggleSubmit((prev) => !prev);
   }
 
   function handleSort(e: React.ChangeEvent<HTMLSelectElement>) {
     setSort(e.target.value);
-    // localStorage.setItem("sort", e.target.value);
   }
 
   function handleSubmit() {
@@ -61,6 +86,13 @@ export default function HomePage(props: Iprops): JSX.Element {
     setFilterVal("");
     setSort("");
   }
+
+  // function handleDateChange(dates: any) {
+  //   const [start, end] = dates;
+  //   setStartDate(start);
+  //   setEndDate(end);
+  // }
+  
 
   const filteredTiles = filteredProjects.map((project) => {
     return (
@@ -86,7 +118,7 @@ export default function HomePage(props: Iprops): JSX.Element {
           </div>
         </div>
 
-        {filter !== "" && (
+        {(filter === "id" || filter === "client" || filter === "employee") && (
           <div className="search-bar">
             <h3>Search: </h3>
             <input
@@ -100,10 +132,25 @@ export default function HomePage(props: Iprops): JSX.Element {
             <button onClick={handleReset}>Reset</button>
           </div>
         )}
+        { filter === "size" && 
+        <select onChange={handleCostFilter} value={filterCost}>
+           <option value="">Select Cost Range</option>
+           {filterCostOptions.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.name}
+              </option>
+            ))}
+        </select>
+        }
+        { (filter === "startDate" || filter === "endDate") &&
+        <div>
+        </div>
+        }
+  
 
         <div className="options-bar">
           <h3>Filter:</h3>
-          <select onChange={handleFilter} value={filter}>
+          <select onChange={handleFilter} >
             <option value="">Filter By</option>
             {filterOptions.map((item) => (
               <option key={item.value} value={item.value}>

@@ -16,28 +16,18 @@ export default function filterProjects(
 
       // break;
       case "size":
-        if (filterVal.includes(">")) {
-          const value = filterVal.replace(">", "");
-          parseInt(value);
           filteredProjects = projectsArr.filter(
-            (project) => project.project.size >= value
-          );
-        } else if (filterVal.includes("<")) {
-          const value = filterVal.replace("<", "");
-          parseInt(value);
-          filteredProjects = projectsArr.filter(
-            (project) => project.project.size
-          );
-        }
-
+            (project) => 
+            (parseInt(filterVal) - 10000) <= parseFloat(project.project.size) && parseFloat(project.project.size) <= parseInt(filterVal)
+          )
         break;
       case "employee":
         for (const project of projectsArr) {
           for (const employee of project.team) {
             if (
               employee.id === filterVal ||
-              employee.name.includes(filterVal) ||
-              employee.role.includes(filterVal)
+              employee.name.toLowerCase().includes(filterVal.toLowerCase()) ||
+              employee.role.toLowerCase().includes(filterVal.toLowerCase())
             ) {
               filteredProjects.push(project);
             }
@@ -48,7 +38,7 @@ export default function filterProjects(
         filteredProjects = projectsArr.filter(
           (project) =>
             project.client.id === filterVal ||
-            project.client.name.includes(filterVal)
+            project.client.name.toLowerCase().includes(filterVal.toLowerCase())
         );
 
         break;
@@ -73,3 +63,13 @@ export const filterOptions = [
   { name: "Client", value: "client" },
   { name: "Project ID", value: "id" },
 ];
+
+export const filterCostOptions = [
+  {name: "£0 - £10,000", value: "10000" },
+  {name: "£10,000 - £20,000", value: "20000" },
+  {name: "£20,000 - £30,000", value: "30000" },
+  {name: "£30,000 - £40,000", value: "40000" },
+  {name: "£40,000 - £50,000", value: "50000" },
+  {name: "£50,000 - £60,000", value: "60000" },
+  {name: "£60,000 + ", value: "70000" }
+]
