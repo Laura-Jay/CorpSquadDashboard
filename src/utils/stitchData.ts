@@ -18,7 +18,6 @@ export default function stitchData(
       teamMembers.push(teamMember[0]);
     }
 
-
     let clientDetails = {
       id: "",
       name: "",

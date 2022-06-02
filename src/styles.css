@@ -41,12 +41,23 @@ img {
   outline: 0;
 }
 
+/*
+Ensuring it works for large and small screens:
+90% of 1920 = 1728
+90% of 1440 = 1296
+90% of 3840 = 3456 (4k) have a max of three columns to prevent too much noise
+*/
+
 .responsive-wrapper {
   width: 90%;
-  max-width: 1280px;
+  max-width: 2300px;
   margin-left: auto;
   margin-right: auto;
 }
+
+/*
+if time add media query to reduce this to 80% for average desktop sreen size
+*/
 
 button {
   font: inherit;
@@ -96,11 +107,32 @@ h1 {
   }
 }
 
+/* .content {
+  margin-top: 100px;
+  padding-top: 250px;
+} */
+
 .cost-h1 {
   font-size: 1.75rem;
   font-weight: 600;
   line-height: 1.25;
   margin-left: 0.75rem;
+}
+
+.cost-analysis {
+  margin-left: 30px;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aggregate {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
 }
 
 .search {
@@ -125,14 +157,39 @@ input {
   color: var(--c-text-action);
   font-size: 0.875rem;
   transition: 0.15s ease;
-  width: 100%;
+  width: 70%;
+  max-width: 500px;
   line-height: 1;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  padding: 0 30px;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .options-bar {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 20px;
+  justify-content: center;
+  margin: 20px 30px;
+  padding: 0 30px;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .options-bar {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    padding: 0 30px;
+    align-items: center;
+  }
 }
 
 select {
@@ -150,6 +207,8 @@ select {
   font-size: 0.875rem;
   transition: 0.15s ease;
   width: 100%;
+  max-width: 500px;
+  min-width: 300px;
   line-height: 1;
 }
 
@@ -159,16 +218,16 @@ select {
   column-gap: 1.5rem;
   row-gap: 1.5rem;
 }
-
+/* 
 @media (min-width: 1000px) {
   .project-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
+} */
 
 @media (min-width: 1400px) {
   .project-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
   }
 }
 
@@ -226,11 +285,11 @@ h3 {
   row-gap: 1.5rem;
 }
 
-@media (min-width: 1000px) {
+/* @media (min-width: 1000px) {
   .team-details-grid {
     grid-template-columns: repeat(1, 1fr);
   }
-}
+} */
 
 .profile-image {
   display: flex;
@@ -253,3 +312,20 @@ h3 {
   display: flex;
   flex-direction: column;
 }
+
+/* .header {
+  position: fixed;
+  background: #686b87;
+  color: #ecf3fe;
+  width: 90%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;;
+  margin-bottom: 100px;
+  padding-left: 50px;
+  padding-right: 30px;
+  -webkit-box-shadow: 0 7px 8px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 7px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 7px 8px rgba(0, 0, 0, 0.12);
+} */
