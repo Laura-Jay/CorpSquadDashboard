@@ -1,6 +1,6 @@
 import { IFullProjectData } from "../../Interfaces";
 import getAggregate from "../../utils/getAggregate";
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import Project from "../../Project";
 import getPlaceholder from "../../utils/getPlaceholder";
 import filterProjects from "../../utils/filterProjects";
@@ -14,46 +14,15 @@ interface Iprops {
 }
 
 export default function HomePage(props: Iprops): JSX.Element {
-  const [state, dispatch] = useReducer(filterReducer, initialState);
-  const {
-    filter,
-    filterVal,
-    filterCost,
-    dateRange,
-    sort,
-    toggleSubmit,
-    filteredProjects,
-  } = state;
-
-  function filterReducer(state: IState, action: ActionType): IState {
-    switch (action.type) {
-      case "FIELD": {
-        return {
-          ...state,
-          [action.fieldName]: action.payload,
-        };
-      }
-      case "SUBMIT": {
-        return {
-          ...state,
-          toggleSubmit: !state.toggleSubmit,
-        };
-      }
-      case "CLEAR": {
-        return {
-          ...state,
-          filter: "",
-          filterVal: "",
-          filterCost: "",
-          dateRange: "",
-          sort: "",
-          toggleSubmit: !state.toggleSubmit,
-        };
-      }
-      default:
-        return state;
-    }
-  }
+  const [filter, setFilter] = useState<string>("");
+  const [filterVal, setFilterVal] = useState<string>("");
+  const [filterCost, setFilterCost] = useState<string>("");
+  const [dateRange, setDateRange] = useState<string>("");
+  const [sort, setSort] = useState<string>("");
+  const [toggleSubmit, setToggleSubmit] = useState<boolean>(false);
+  const [filteredProjects, setfilteredProjects] = useState<IFullProjectData[]>(
+    []
+  );
 
   useEffect(() => {
     const localSort = localStorage.getItem("sort");
@@ -62,44 +31,11 @@ export default function HomePage(props: Iprops): JSX.Element {
     const localDateRange = localStorage.getItem("dateRange");
     const localFilterCost = localStorage.getItem("filterCost");
 
-    if (localSort) {
-      dispatch({
-        type: "FIELD",
-        fieldName: "sort",
-        payload: localSort,
-      });
-    }
-
-    if (localFilterVal) {
-      dispatch({
-        type: "FIELD",
-        fieldName: "filterVal",
-        payload: localFilterVal,
-      });
-    }
-    if (localFilter) {
-      dispatch({
-        type: "FIELD",
-        fieldName: "filter",
-        payload: localFilter,
-      });
-    }
-
-    if (localFilterCost) {
-      dispatch({
-        type: "FIELD",
-        fieldName: "filterCost",
-        payload: localFilterCost,
-      });
-    }
-
-    if (localDateRange) {
-      dispatch({
-        type: "FIELD",
-        fieldName: "dateRange",
-        payload: localDateRange,
-      });
-    }
+    if (localSort) setSort(localSort);
+    if (localFilterVal) setFilterVal(localFilterVal);
+    if (localFilter) setFilter(localFilter);
+    if (localFilterCost) setFilterCost(localFilterCost);
+    if (localDateRange) setDateRange(localDateRange);
 
     if (sort || filter) {
       if (filter === "startDate" || filter === "endDate") {
@@ -110,12 +46,7 @@ export default function HomePage(props: Iprops): JSX.Element {
         );
 
         const sortedResults = sortProjects(sort, filteredresults);
-
-        dispatch({
-          type: "FIELD",
-          fieldName: "filteredProjects",
-          payload: sortedResults,
-        });
+        setfilteredProjects(sortedResults);
       }
 
       if (filter === "size") {
@@ -126,12 +57,7 @@ export default function HomePage(props: Iprops): JSX.Element {
         );
 
         const sortedResults = sortProjects(sort, filteredresults);
-
-        dispatch({
-          type: "FIELD",
-          fieldName: "filteredProjects",
-          payload: sortedResults,
-        });
+        setfilteredProjects(sortedResults);
       }
 
       if (filter !== "size" && filter !== "startDate" && filter !== "endDate") {
@@ -141,23 +67,10 @@ export default function HomePage(props: Iprops): JSX.Element {
           props.projectData
         );
         const sortedResults = sortProjects(sort, filteredresults);
-
-        dispatch({
-          type: "FIELD",
-          fieldName: "filteredProjects",
-          payload: sortedResults,
-        });
+        setfilteredProjects(sortedResults);
       }
     }
-
-    // if there is no locally stored values
-
-    dispatch({
-      type: "FIELD",
-      fieldName: "filteredProjects",
-      payload: props.projectData,
-    });
-
+    setfilteredProjects(props.projectData);
     // eslint-disable-next-line
   }, [props.projectData]);
 
@@ -174,12 +87,7 @@ export default function HomePage(props: Iprops): JSX.Element {
       localStorage.setItem("filter", filter);
       localStorage.setItem("dateRange", dateRange);
       const sortedResults = sortProjects(sort, filteredresults);
-
-      dispatch({
-        type: "FIELD",
-        fieldName: "filteredProjects",
-        payload: sortedResults,
-      });
+      setfilteredProjects(sortedResults);
     }
 
     if (filter === "size") {
@@ -192,14 +100,8 @@ export default function HomePage(props: Iprops): JSX.Element {
       localStorage.setItem("sort", sort);
       localStorage.setItem("filterCost", filterCost);
       localStorage.setItem("filter", filter);
-
       const sortedResults = sortProjects(sort, filteredresults);
-
-      dispatch({
-        type: "FIELD",
-        fieldName: "filteredProjects",
-        payload: sortedResults,
-      });
+      setfilteredProjects(sortedResults);
     }
 
     if (filter !== "size" && filter !== "startDate" && filter !== "endDate") {
@@ -210,18 +112,11 @@ export default function HomePage(props: Iprops): JSX.Element {
       );
 
       const sortedResults = sortProjects(sort, filteredresults);
-
       localStorage.setItem("sort", sort);
       localStorage.setItem("filterVal", filterVal);
       localStorage.setItem("filter", filter);
-
-      dispatch({
-        type: "FIELD",
-        fieldName: "filteredProjects",
-        payload: sortedResults,
-      });
+      setfilteredProjects(sortedResults);
     }
-
     // eslint-disable-next-line
   }, [toggleSubmit, sort]);
 
@@ -230,56 +125,36 @@ export default function HomePage(props: Iprops): JSX.Element {
   const placeholderVal = getPlaceholder(filter);
 
   function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
-    dispatch({
-      type: "FIELD",
-      fieldName: "filter",
-      payload: e.target.value,
-    });
+    setFilter(e.target.value);
   }
 
   function handleDateFilter(e: React.ChangeEvent<HTMLInputElement>) {
-    dispatch({
-      type: "FIELD",
-      fieldName: "dateRange",
-      payload: e.target.value,
-    });
+    setDateRange(e.target.value);
   }
 
   function handleCostFilter(e: React.ChangeEvent<HTMLSelectElement>) {
-    dispatch({
-      type: "FIELD",
-      fieldName: "filterCost",
-      payload: e.target.value,
-    });
-
-    dispatch({ type: "SUBMIT" });
+    setFilterCost(e.target.value);
+    setToggleSubmit((prev) => !prev);
   }
 
   function handleSort(e: React.ChangeEvent<HTMLSelectElement>) {
-    dispatch({
-      type: "FIELD",
-      fieldName: "sort",
-      payload: e.target.value,
-    });
-  }
-
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    dispatch({
-      type: "FIELD",
-      fieldName: "filterVal",
-      payload: e.target.value,
-    });
+    setSort(e.target.value);
   }
 
   function handleSubmit() {
-    dispatch({ type: "SUBMIT" });
+    setToggleSubmit((prev) => !prev);
   }
 
   function handleReset() {
-    dispatch({ type: "CLEAR" });
+    setFilter("");
+    setFilterVal("");
+    setSort("");
+    setFilterCost("");
+    setDateRange("");
+    setToggleSubmit((prev) => !prev);
   }
 
-  const filteredTiles = filteredProjects.map((project: IFullProjectData) => {
+  const filteredTiles = filteredProjects.map((project) => {
     return (
       <Project
         key={project.project.id}
@@ -311,7 +186,7 @@ export default function HomePage(props: Iprops): JSX.Element {
               placeholder={placeholderVal}
               id="search"
               value={filterVal}
-              onChange={handleSearch}
+              onChange={(e) => setFilterVal(e.target.value)}
             />
             <button onClick={handleSubmit}>Apply Filter</button>
             <button onClick={handleReset}>Reset</button>
@@ -373,39 +248,3 @@ export default function HomePage(props: Iprops): JSX.Element {
     </section>
   );
 }
-
-const initialState = {
-  filter: "",
-  filterVal: "",
-  filterCost: "",
-  dateRange: "",
-  sort: "",
-  toggleSubmit: false,
-  filteredProjects: [],
-};
-
-interface IState {
-  filter: string;
-  filterVal: string;
-  filterCost: string;
-  dateRange: string;
-  sort: string;
-  toggleSubmit: boolean;
-  filteredProjects: IFullProjectData[];
-}
-
-interface IFieldAction {
-  type: "FIELD";
-  fieldName: string;
-  payload: string | boolean | IFullProjectData[];
-}
-
-interface ISubmitAction {
-  type: "SUBMIT";
-}
-
-interface IClearAction {
-  type: "CLEAR";
-}
-
-type ActionType = IFieldAction | ISubmitAction | IClearAction;
