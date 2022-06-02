@@ -9,13 +9,6 @@ import stitchData from "./utils/stitchData";
 import { IClient, IEmployee, IFullProjectData, IProject } from "./Interfaces";
 import "./styles.css";
 
-// const ACTIONS = {
-//   LOADING: "LOADING",
-//   UPDATEDATA: "UPDATEDATA",
-//   ERROR: "ERROR",
-//   SETFULLDATA: "SETFULLDATA",
-// };
-
 interface IState {
   loading: boolean;
   error: boolean;
