@@ -90,7 +90,6 @@ function App(): JSX.Element {
 
   useEffect(() => {
     if (state.projectData && state.employeeData && state.clientData) {
-      console.log(typeof state.projectData);
       const fullProjectsData = stitchData(
         state.projectData,
         state.employeeData,

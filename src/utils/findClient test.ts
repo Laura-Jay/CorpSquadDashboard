@@ -36,10 +36,8 @@ const testProjects1 = [
 ];
 
 test("returns client information from projects array by client id", () => {
-  expect(
-    findClient(testProjects1, "f0b83d3a0b77da97ec7eefc4")
-  ).toStrictEqual({
+  expect(findClient(testProjects1, "f0b83d3a0b77da97ec7eefc4")).toStrictEqual({
     id: "f0b83d3a0b77da97ec7eefc4",
-    name: "Mon-Inc"
+    name: "Mon-Inc",
   });
 });

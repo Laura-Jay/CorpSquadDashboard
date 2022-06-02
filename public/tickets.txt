@@ -1,0 +1,24 @@
+Core Functionality:
+- Sort and filter projects 
+
+Additional Functionality:
+- transition animation for sort and filter 
+- responsive text sizing 
+- fixed scroll header to allow easy access to filters from halfway through list
+- Search Employee Name 
+- Employee Home Page 
+- Search Client Name 
+- Client Home Page 
+- Graph mapping projects / times / size 
+- make team details show 2 x2 grid 
+- make projects max 2 x2 grid 
+- navigation to Employee and client pages 
+- css for nav bar 
+- footer 
+- read me file : challenges, approach ect 
+
+Checks: 
+- looks good on ipad, 
+- on large screens team members get clipped : TO RESOLVE
+- on phone screen text is a little small 
+- sort and filter bars need a max and min width, perhaps stack them for mobile? 

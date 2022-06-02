@@ -83,6 +83,6 @@ export default function useAxiosFetchAll(
 
     fetch();
   }, [url, url2, url3]);
-  
+
   return state;
 }

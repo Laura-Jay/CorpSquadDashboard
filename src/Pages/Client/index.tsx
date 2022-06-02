@@ -12,14 +12,12 @@ interface Iprops {
 export default function ClientPage(props: Iprops): JSX.Element {
   const { clientId } = useParams() as { clientId: string };
 
-
   const clientProjects: IFullProjectData[] = findProjectsFromClient(
     props.projectData,
     clientId
   );
 
   const currentClient = clientProjects[0].client;
-
 
   const clientProjectsData = clientProjects.map((project: IFullProjectData) => {
     return (
@@ -44,7 +42,7 @@ export default function ClientPage(props: Iprops): JSX.Element {
       <section className="responsive-wrapper">
         <h1>Client Bio</h1>
         <div className="client-bio">
-        <Client id={currentClient.id} name={currentClient.name} />
+          <Client id={currentClient.id} name={currentClient.name} />
         </div>
         <div className="project-grid">{clientProjectsData}</div>
       </section>
