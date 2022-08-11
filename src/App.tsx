@@ -95,7 +95,7 @@ function App(): JSX.Element {
 
   return (
     <>
-      {state.error && <div>Something went wrong ...</div>}
+      {state.error && <div>Server sleeping, please refresh until awake...</div>}
 
       {state.loading && <div>Loading ...</div>}
 
